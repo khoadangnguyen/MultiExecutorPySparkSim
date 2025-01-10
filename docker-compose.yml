@@ -5,6 +5,7 @@ services:
     ports:
       - "8080:8080"
       - "7077:7077"
+      - "18080:18080"
     environment:
       - SPARK_MASTER_PORT=7077
       - SPARK_MODE=master

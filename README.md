@@ -25,10 +25,15 @@ docker exec -it spark-master /opt/bitnami/spark/bin/spark-submit \
 ./MultiExecutorPySparkSim/app/pizza_order.py
 ```
 - Similar to previous project, spark application event logs are configured to store to the project directory under spark-event-log.
-- Spark history server is configured (either in config file or environment variable) to load data from the same spark-event-log project directory.
 ```bash
-spark-default.conf
-spark.history.fs.logDirectory=./spark-event-log
+spark.conf
+spark.eventLog.enabled=true
+spark.eventLog.dir=./MultiExecutorPySparkSim/spark-event-log
+```
+- Spark history server is configured (using its own config file) to load data from the same spark-event-log project directory.
+```bash
+spark-history-server.conf
+spark.history.fs.logDirectory=./MultiExecutorPySparkSim/spark-event-log
 ```
 or
 ```bash
@@ -43,8 +48,9 @@ docker-compose down
 
 Commands used to start and stop spark history server
 ```bash
-start-history-server.sh
-stop-history-server.sh
+docker exec -it spark-master bash -c "/opt/bitnami/spark/sbin/start-history-server.sh \
+    --properties-file MultiExecutorPySparkSim/spark-history-server.conf"
+docker exec -it spark-master /opt/bitnami/spark/sbin/stop-history-server.sh
 ```
 
 ### Future improvement
