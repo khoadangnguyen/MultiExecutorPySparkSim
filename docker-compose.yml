@@ -1,6 +1,6 @@
 services:
   spark-master:
-    image: bitnami/spark:latest
+    image: bitnami/spark:3.5.4
     container_name: spark-master
     ports:
       - "8080:8080"
@@ -23,7 +23,7 @@ services:
       - spark-net
 
   spark-worker:
-    image: bitnami/spark:latest
+    image: bitnami/spark:3.5.4
     environment:
       - SPARK_MASTER=spark://spark-master:7077
       - SPARK_MODE=worker
